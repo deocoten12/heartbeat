@@ -250,4 +250,4 @@ io.on('connection', function(socket){
    setInterval(function(){ 
      io.sockets.emit("nguongcao",nguongcao);
     io.sockets.emit("nguongthap",nguongthap);
-    }, 5000);
+    }, 3000);
