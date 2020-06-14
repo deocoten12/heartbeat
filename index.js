@@ -8,8 +8,8 @@ app.use(express.static("public"))
 app.set("views engine", "ejs")
 app.set("views", "./views")
 var server = require("http").Server(app)
-server.listen(process.env.PORT || 3000)
 var io = require('socket.io')(server)
+server.listen(process.env.PORT || 3000)
 app.get("/", function(req, res){
     res.render("dothi.ejs");
 });
