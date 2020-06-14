@@ -112,7 +112,7 @@ client.on('message',function(topic, message, packet){
         var n = new Date()//.toMysqlFormat();
         var month = n.getMonth() + 1
         var Date_and_Time = n.getFullYear()+"-"+month+"-"+n.getDate() +" "+ n.getHours()+":"+n.getMinutes()+":"+n.getSeconds();
-        // console.log(Date_and_Time)
+        console.log(Date_and_Time)
         var sql = "INSERT INTO sensors12 (ID, Time, Heartbeat, Oxygen) VALUES ('" + count + "', '" + Date_and_Time.toString() + "', '" + newHeartbeat + "', '" + newOxy + "')"
         con.query(sql, function(err, result){
             if (err) throw err;
