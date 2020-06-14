@@ -3,27 +3,25 @@ var mysql = require('mysql')
 var mqtt = require('mqtt')
 
 var app = express()
-var port = process.env.PORT || 6060 
 
 app.use(express.static("public"))
 app.set("views engine", "ejs")
 app.set("views", "./views")
-
+server.listen(process.env.PORT || 3000);
 var server = require("http").Server(app)
 var io = require('socket.io')(server)
-app.get("https://donhiptim.herokuapp.com/", function(req, res){
+app.get("/", function(req, res){
     res.render("dothi.ejs");
 });
-app.get("https://donhiptim.herokuapp.com/dothi.ejs", function(req, res){
+app.get("/dothi.ejs", function(req, res){
     res.render("dothi.ejs");
 });
-app.get("https://donhiptim.herokuapp.com/lichsu.ejs", function(req, res){
+app.get("/lichsu.ejs", function(req, res){
     res.render("lichsu.ejs");
 });
-app.get("https://donhiptim.herokuapp.com/thaynguong.ejs", function(req,  res){
+app.get("/thaynguong.ejs", function(req,  res){
     res.render("thaynguong.ejs");
 });
-server.listen(process.env.PORT || 6060)
 
 //----------------------MQTT-------------------------
 // var client = mqtt.connect("mqtt://localhost:1883",{clientId:"mqttjs01"}); 
