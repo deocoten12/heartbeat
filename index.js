@@ -3,7 +3,7 @@ var mysql = require('mysql')
 var mqtt = require('mqtt')
 
 var app = express()
-var port = 6060
+var port = process.env.PORT || 6060 
 
 app.use(express.static("public"))
 app.set("views engine", "ejs")
@@ -23,9 +23,7 @@ app.get("/lichsu.ejs", function(req, res){
 app.get("/thaynguong.ejs", function(req,  res){
     res.render("thaynguong.ejs");
 });
-server.listen(port, function(){
-    console.log('Server listening on port ' + port)
-})
+server.listen(process.env.PORT || 6060)
 
 //----------------------MQTT-------------------------
 // var client = mqtt.connect("mqtt://localhost:1883",{clientId:"mqttjs01"}); 

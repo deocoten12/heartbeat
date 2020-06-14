@@ -1,4 +1,4 @@
-var socket = io("http://localhost:6060")
+var socket = io("https://donhiptim.herokuapp.com/")
 var page;
 var itemPerPage = 15;
 var id_arr=[];
