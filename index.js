@@ -196,7 +196,6 @@ client.on('message',function(topic, message, packet){
        //  mode = 1;
        //  io.sockets.emit("Canhbao-on");
        //  }
-},5000)
 
 //-----------------------------------------
 //Socket
