@@ -11,16 +11,16 @@ app.set("views", "./views")
 
 var server = require("http").Server(app)
 var io = require('socket.io')(server)
-app.get("/", function(req, res){
+app.get("https://donhiptim.herokuapp.com/", function(req, res){
     res.render("dothi.ejs");
 });
-app.get("/dothi.ejs", function(req, res){
+app.get("https://donhiptim.herokuapp.com/dothi.ejs", function(req, res){
     res.render("dothi.ejs");
 });
-app.get("/lichsu.ejs", function(req, res){
+app.get("https://donhiptim.herokuapp.com/lichsu.ejs", function(req, res){
     res.render("lichsu.ejs");
 });
-app.get("/thaynguong.ejs", function(req,  res){
+app.get("https://donhiptim.herokuapp.com/thaynguong.ejs", function(req,  res){
     res.render("thaynguong.ejs");
 });
 server.listen(process.env.PORT || 6060)
