@@ -238,7 +238,7 @@ io.on('connection', function(socket){
          client.publish(topic2, "off")
     });
     });
-   setInterval(function(){ 
-     io.sockets.emit("nguongcao",nguongcao);
-    io.sockets.emit("nguongthap",nguongthap);
-    }, 3000);
+   // setInterval(function(){ 
+   //   io.sockets.emit("nguongcao",nguongcao);
+   //  io.sockets.emit("nguongthap",nguongthap);
+   //  }, 3000);
