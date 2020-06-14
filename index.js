@@ -172,8 +172,8 @@ client.on('message',function(topic, message, packet){
             io.sockets.emit("server-send-oxy_graph",oxy_graph);
             io.sockets.emit("server-send-heartbeat_graph",heartbeat_graph);
             io.sockets.emit("server-send-date_graph",date_graph);
-            //  io.sockets.emit("nguongcao",nguongcao);
-            // io.sockets.emit("nguongthap",nguongthap);
+            io.sockets.emit("nguongcao",nguongcao);
+            io.sockets.emit("nguongthap",nguongthap);
             if(((newHeartbeat>=nguongcao)||(newHeartbeat<=nguongthap))&&(mode==1)){
                 io.sockets.emit("Canhbao");
                 mode = 0;
@@ -246,7 +246,7 @@ io.on('connection', function(socket){
          client.publish(topic2, "off")
     });
     });
-   setInterval(function(){ 
-     io.sockets.emit("nguongcao",nguongcao);
-    io.sockets.emit("nguongthap",nguongthap);
-    }, 3000);
+   // setInterval(function(){ 
+   //   io.sockets.emit("nguongcao",nguongcao);
+   //  io.sockets.emit("nguongthap",nguongthap);
+   //  }, 3000);
