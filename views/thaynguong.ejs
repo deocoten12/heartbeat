@@ -1,0 +1,60 @@
+<html>
+<head>
+<title> Đo Nhịp Tim</title>
+<script src="highcharts.js"></script>
+<script src="export-data.js"></script>
+<script src="accessibility.js"></script>
+<script src="jquery.js"> </script>
+<script src ="/socket.io/socket.io.js"> </script>
+<script src="xuly.js"></script>
+<link rel="stylesheet" type="text/css" href="layout.css"/>
+</head>
+
+<body>
+<div class="sidebar-container">
+  <div class="sidebar-logo">
+    Thiết bị đo nhịp tim
+  </div>
+  <ul class="sidebar-navigation">
+    <li>
+      <a href="dothi.ejs">
+        <i class="fa fa-home" aria-hidden="true"></i> Đồ Thị
+      </a>
+    </li>
+    <li>
+      <a href="lichsu.ejs">
+        <i class="fa fa-tachometer" aria-hidden="true"></i> Lịch Sử
+      </a>
+    </li>
+    <li>
+      <a href="thaynguong.ejs">
+        <i class="fa fa-users" aria-hidden="true"></i> Thay đổi ngưỡng
+      </a>
+    </li>
+     <li>
+      <div id="container-switch">
+        <div id="switch-title"> 
+          Trạng thái cảnh báo 
+          <div class="switch-container">
+            <label class="switch">
+              <input type="checkbox" id="checked">
+              <span class="slider round"></span>
+          </label>
+        </div>
+       </div>
+    </li>
+  </ul>
+</div>
+<div id="status">
+         <div id="thaynguong-status"></div>
+     </div>
+ <div class="form">
+  <div class="thaynguong-title">Thay đổi ngưỡng nhịp tim</div>
+    <form class="thaynguong">
+  <input type="text" id="pin1" placeholder="ngưỡng cao" maxlength="3" size="3"/><br>
+  <input type="text" id="pin2" placeholder="ngưỡng thấp" maxlength="3" size="3"/><br>
+  <button type="button" id="thaynguong-button">Đồng ý</button>
+  </form>
+    </div>
+</body>
+</html>

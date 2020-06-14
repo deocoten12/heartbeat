@@ -1,0 +1,188 @@
+<html>
+<head>
+<title> Đo Nhịp Tim</title>
+<script src="highcharts.js"></script>
+<script src="export-data.js"></script>
+<script src="accessibility.js"></script>
+<script src="jquery.js"> </script>
+<script src ="/socket.io/socket.io.js"> </script>
+<script src="xuly.js"></script>
+<link rel="stylesheet" type="text/css" href="layout.css"/>
+</head>
+<body>
+<div class="sidebar-container">
+  <div class="sidebar-logo">
+    Thiết bị đo nhịp tim
+  </div>
+  <ul class="sidebar-navigation">
+    <li>
+      <a href="dothi.ejs">
+        <i class="fa fa-home" aria-hidden="true"></i> Đồ Thị
+      </a>
+    </li>
+    <li>
+      <a href="lichsu.ejs">
+        <i class="fa fa-tachometer" aria-hidden="true"></i> Lịch Sử
+      </a>
+    </li>
+    <li>
+      <a href="thaynguong.ejs">
+        <i class="fa fa-users" aria-hidden="true"></i> Thay đổi ngưỡng
+      </a>
+    </li>
+     <li>
+      <div id="container-switch">
+        <div id="switch-title"> 
+          Trạng thái cảnh báo 
+          <div class="switch-container">
+            <label class="switch">
+              <input type="checkbox" id="checked">
+              <span class="slider round"></span>
+          </label>
+        </div>
+       </div>
+    </li>
+  </ul>
+</div>
+<div id="status">
+         <div id="thaynguong-status"></div>
+     </div>
+<div id="container-all">
+<figure class="highcharts-figure">
+<div id="container"></div>
+</figure>
+<div id="warning-show"></div>
+<div id="warning">
+    <div id="warning-symbol">&#x26A0;</div>
+     <div id="warning-title">Nhịp tim quá mức</div>  
+    <button type="button" id="warning-button">Tắt cảnh báo</button>
+</div> 
+</div>
+<script type="text/javascript">
+
+var chart=Highcharts.chart('container', {
+    chart: {
+        zoomType: 'xy',
+        backgroundColor: '#F7CAC9'
+    },
+    title: {
+        text: 'Đồ thị nhịp tim'
+    },
+    
+    xAxis: [{
+        categories: [],
+        tickWidth: 1,
+        tickLength: 20
+    }],
+    yAxis: [{ // Primary yAxis
+        labels: {
+            format: '{value} BPM',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        },
+        title: {
+            text: 'Nhịp tim/phút',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        },
+        plotLines: [{
+                value: 20,
+                color: 'green',
+                dashStyle: 'shortdash',
+                width: 2,
+                zIndex: 10,
+                label: {
+                    text: 'Ngưỡng thấp'
+                }
+            }, {
+                value: 90,
+                color: 'red',
+                dashStyle: 'shortdash',
+                width: 2,
+                zIndex: 10,
+                label: {
+                    text: 'Ngưỡng cao'
+                }
+            }],  
+
+    }, { // Secondary yAxis
+        title: {
+            text: 'Nồng độ Oxy',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        labels: {
+            format: '{value} %',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        opposite: true
+    }],
+    tooltip: {
+        shared: true
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'left',
+        x: 120,
+        verticalAlign: 'top',
+        y: 100,
+        floating: true,
+        backgroundColor:
+            Highcharts.defaultOptions.legend.backgroundColor || // theme
+            'rgba(255,255,255,0.25)'
+    },
+    series: [{
+        name: 'Nồng độ Oxy',
+        type: 'column',
+        yAxis: 1,
+        data: [],
+        tooltip: {
+            valueSuffix: ' %'
+        }
+
+    }, {
+        name: 'BPM',
+        type: 'spline',
+        data: [],
+        tooltip: {
+            valueSuffix: 'BPM'
+        },
+        zones: [{
+            value: 20,
+            color: '#ff0015'
+        }, {
+            value: 90 ,
+            color: '#141107'
+        }, {
+            color: '#ff0015'
+        }],
+    }],
+});
+socket.on("server-send-oxy_graph", function(data){
+    chart.series[0].setData(data);
+        });
+socket.on("server-send-heartbeat_graph", function(data){
+    chart.series[1].setData(data);
+        });  
+socket.on("server-send-date_graph", function(data){
+     chart.xAxis[0].setCategories(data);       
+        });     
+ socket.on("nguongthap", function(data){
+    chart.yAxis[0].options.plotLines[0].value =data;
+    chart.series[1].options.zones[0].value =data;
+ }); 
+socket.on("nguongcao", function(data){     
+    chart.yAxis[0].options.plotLines[1].value =data;
+    chart.yAxis[0].update();
+    chart.series[1].options.zones[1].value =data;
+    chart.series[1].update();
+ });  
+</script>
+</div>
+</body>
+</html>

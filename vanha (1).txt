@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>THCS</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="./main.css">
+
+        <script src="https://code.jquery.com/jquery-3.5.0.min.js"> </script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    </head>
+
+    <body>
+        <h1>Thực hành chuyên sâu</h1>
+        
+        <div id="wrapper">
+            <div id="current">
+                <div id="current-temp">Nhiệt độ: 30°C </div>
+                <div id="current-humi">Độ ẩm: 80%</div>
+                <div id="current-lux">Ánh sáng: 100 lux</div>
+            </div>
+            <div id="left">
+                <div class="boxtitle" style="padding: 10px 20px;">
+                    Biểu đồ
+                </div>
+                <figure class="highcharts-figure">
+                    <div id="container"></div>
+                </figure>
+            </div>
+            <div id="right">
+                <div class="boxtitle" style="padding: 10px 20px;">
+                    Lịch sử
+                </div>
+                <div id="table1">
+                    <div id="table-header">
+                        <div id="table-left1">
+                            <div id="left-header">Thời gian</div>
+                        </div>
+                        <div id="table-center1">
+                            <div id="center-header">Nhiệt độ(°C)</div>
+                        </div>
+                        <div id="table-right1">
+                            <div id="right-header">Độ ẩm(%)</div>
+                        </div>
+                    </div>
+                    <div id="body">
+                        <div id="table-left">
+                            <!-- <div id="thoigian"></div> -->
+                        </div>
+                        <div id="table-center"> 
+                            <!-- <div id="nhietdo"></div> -->
+                        </div>
+                        <div id="table-right">
+                            <!-- <div id="doam"></div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+
+            var chart=Highcharts.chart('container', {
+                chart: {
+                    zoomType: 'xy'
+                },
+                title: {
+                    text: 'Đồ thị Nhiệt độ - Độ ẩm - Ánh sáng'
+                },
+                
+                xAxis: [{
+                    categories: [],
+                    tickWidth: 1,
+                    tickLength: 20
+                }],
+                yAxis: [{ // Primary yAxis
+                    labels: {
+                        format: '{value}',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                },
+                title: {
+                    text: 'Nhiệt độ (°C)',
+                    style: {
+                        color: Highcharts.getOptions().colors[1]
+                    }
+                },
+                plotLines: [{
+                    value: 10,
+                    color: 'green',
+                    dashStyle: 'shortdash',
+                    width: 2,
+                    zIndex: 10,
+                    label: {
+                            text: 'Ngưỡng thấp'
+                            }
+                    }, {
+                        value: 30,
+                        color: 'red',
+                        dashStyle: 'shortdash',
+                        width: 2,
+                        zIndex: 10,
+                        label: {
+                            text: 'Ngưỡng cao'
+                        }
+                    }],  
+                }, { // Secondary yAxis
+                    title: {
+                        text: 'Độ ẩm(%)',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    labels: {
+                        format: '{value}',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    opposite: true
+                }],
+                tooltip: {
+                    shared: true
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'left',
+                    x: 120,
+                    verticalAlign: 'top',
+                    y: 100,
+                    floating: true,
+                    backgroundColor:
+                        Highcharts.defaultOptions.legend.backgroundColor || // theme
+                        'rgba(255,255,255,0.25)'
+                },
+                series: [{
+                    name: 'Độ ẩm',
+                    type: 'column',
+                    yAxis: 1,
+                    data: [],
+                    tooltip: {
+                        valueSuffix: '%'
+                    }
+    
+                }, {
+                    name: 'Nhiệt độ',
+                    type: 'spline',
+                    data: [],
+                    tooltip: {
+                        valueSuffix: '°C'
+                    },
+                    zones: [{ //vùng trong và ngoài ngưỡng
+                        value: 10,
+                        color: '#ff0015'
+                    }, {
+                        value: 30 ,
+                        color: '#141107'
+                    }, {
+                        color: '#ff0015'
+                    }],
+                }],
+            });
+            </script>
+    </body>
+</html>

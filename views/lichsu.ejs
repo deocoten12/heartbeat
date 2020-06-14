@@ -1,0 +1,99 @@
+<html>
+<head>
+<title> Đo Nhịp Tim</title>
+<script src="highcharts.js"></script>
+<script src="export-data.js"></script>
+<script src="accessibility.js"></script>
+<script src="jquery.js"> </script>
+<script src ="/socket.io/socket.io.js"> </script>
+<script src="xuly.js"></script>
+<link rel="stylesheet" type="text/css" href="layout.css"/>
+</head>
+<body>
+<div class="sidebar-container">
+  <div class="sidebar-logo">
+    Thiết bị đo nhịp tim
+  </div>
+  <ul class="sidebar-navigation">
+    <li>
+      <a href="dothi.ejs">
+        <i class="fa fa-home" aria-hidden="true"></i> Đồ Thị
+      </a>
+    </li>
+    <li>
+      <a href="lichsu.ejs">
+        <i class="fa fa-tachometer" aria-hidden="true"></i> Lịch Sử
+      </a>
+    </li>
+    <li>
+      <a href="thaynguong.ejs">
+        <i class="fa fa-users" aria-hidden="true"></i> Thay đổi ngưỡng
+      </a>
+    </li>
+    <li>
+      <div id="container-switch">
+        <div id="switch-title"> 
+          Trạng thái cảnh báo 
+          <div class="switch-container">
+            <label class="switch">
+              <input type="checkbox" id="checked">
+              <span class="slider round"></span>
+          </label>
+        </div>
+       </div>
+    </li>
+  </ul>
+</div>
+<div id="status">
+         <div id="thaynguong-status"></div>
+     </div>
+ <div id="table1">
+                    <div id="table-header">
+                        <div id="table-left-2">
+                            <div id="left2-header">Lần đo</div>
+                        </div>
+                        <div id="table-left-1">
+                            <div id="left1-header">Thời gian</div>
+                        </div>
+                        <div id="table-center1">
+                            <div id="center-header">Nhịp tim(BPM)</div>
+                        </div>
+                        <div id="table-right1">
+                            <div id="right-header">Nồng độ Oxy(%)</div>
+                        </div>
+                    </div>
+                    <div id="body">
+                        <div id="table-left2">
+                            <!-- <div id="thoigian"></div> -->
+                        </div>
+                        <div id="table-left1">
+                            <!-- <div id="thoigian"></div> -->
+                        </div>
+                        <div id="table-center"> 
+                            <!-- <div id="nhietdo"></div> -->
+                        </div>
+                        <div id="table-right">
+                            <!-- <div id="doam"></div> -->
+                        </div>
+                    </div>
+                   <!--  <div id="page-show">
+                        <div id="current">
+                        <div class="page"></div>
+                        </div>
+                        <button id="page-back"><</button>
+                        <button id="page-next">></button>
+                        <button id="ve-trang-dau">Về Trang Hiện tại</button>
+                        <button id="ve-trang-cuoi">Về Trang Cuối</button>
+                    </div> -->
+                </div>
+                 <div id="page-show">
+                      <button id="ve-trang-dau">Về Trang Đầu</button>
+                      <button id="page-back"><<</button>
+                        <div id="current">
+                        <div class="page"></div>
+                        </div>
+                        <button id="page-next">>></button>
+                        <button id="ve-trang-cuoi">Về Trang Cuối</button>
+                    </div>
+</body>
+</html>
