@@ -250,9 +250,9 @@ io.on('connection', function(socket){
     });
     });
    setInterval(function(){ 
-    x = {
+    var x = {
         "Heartbet"
-    }
+    };
      client.publish(topic3, json.dumps(x))
      console.log(1);
     }, 10000);
