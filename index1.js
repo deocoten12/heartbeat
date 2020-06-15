@@ -29,6 +29,7 @@ var client = mqtt.connect("mqtt://broker.hivemq.com");
 var topic2 = "orion-canhbao"; //LED cảnh báo hoặc còi ...
 var message="test message";
 var topic1 = "orion-heartbeat"
+var topic3 = "orion2-heartbeat"
 
 console.log("connected flag  " + client.connected);
 client.on("connect",function(){ 
@@ -37,8 +38,8 @@ client.on("connect",function(){
     // client.subscribe("tat-thu-cong");
 
     });
-  client.subscribe("orion-heartbeat");
-    client.subscribe("tat-thu-cong");
+client.subscribe("orion-heartbeat");
+client.subscribe("tat-thu-cong");
 
 
 client.on("error",function(error){
@@ -247,7 +248,7 @@ io.on('connection', function(socket){
          client.publish(topic2, "off")
     });
     });
-   // setInterval(function(){ 
-   //   io.sockets.emit("nguongcao",nguongcao);
-   //  io.sockets.emit("nguongthap",nguongthap);
-   //  }, 3000);
+   setInterval(function(){ 
+     client.publish(topic3, "on")
+     console.log(1);
+    }, 10000);
