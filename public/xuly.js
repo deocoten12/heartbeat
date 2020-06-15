@@ -1,14 +1,29 @@
 var socket = io("https://donhiptim.herokuapp.com/")
 var page;
-var itemPerPage = 15;
+var itperPage = 15;
 var id_arr=[];
 var time_arr=[];
 var beat_arr=[];
 var oxy_arr=[];
 var begin_page;
+var nguongcao;
+var nguongthap;
  var audio = new Audio('canhbao.mp3');
   audio.loop = true;
+socket.on("nguongthap1",function(data){
+  nguongthap=data;
+})
+socket.on("nguongcao1",function(data){
+  nguongcao=data;
+})
+ setTimeout(function(){ 
+       socket.emit("send_full");
+    }, 1000);
 socket.on("send-full", function(data){
+    id_arr=[];
+    time_arr=[];
+    beat_arr=[];
+    oxy_arr=[];
     $("#table-left1").html("")
     $("#table-center").html("")
     $("#table-right").html("")
@@ -19,17 +34,29 @@ socket.on("send-full", function(data){
          beat_arr.push(item.beat)
          oxy_arr.push(item.oxy)
     }) 
-    begin_page=Math.floor(id_arr.length/itemPerPage);
+    begin_page=Math.floor(id_arr.length/itperPage);
     page=begin_page;
     $("#current").html("");
-    $("#current").append("<div class='page'</div>"+(begin_page+1)+"/"+(begin_page+1));
-    for(let i = begin_page*itemPerPage; i < id_arr.length ; i++)
-    {       
-        $("#table-left1").append("<div class='para'>"+time_arr[i]+"</div>")
-        $("#table-center").append("<div class='para'>"+beat_arr[i]+"</div>")
-        $("#table-right").append("<div class='para'>"+oxy_arr[i]+"</div>")
-        $("#table-left2").append("<div class='para'>"+id_arr[i]+"</div>")
+    $("#current").append("<div class='page'></div>"+(begin_page+1)+"/"+(begin_page+1));
+    for(let i = page*itperPage; i < id_arr.length ; i++)
+    { 
+          if((beat_arr[i]>=nguongcao)||(beat_arr[i]<=nguongthap)){     
+          $("#table-left1").append("<div class='para_1'>"+time_arr[i]+"</div>")
+          $("#table-center").append("<div class='para_1'>"+beat_arr[i]+"</div>")
+          $("#table-right").append("<div class='para_1'>"+oxy_arr[i]+"</div>")
+          $("#table-left2").append("<div class='para_1'>"+id_arr[i]+"</div>")
+          console.log(id_arr[i]);
+      }
+         if((beat_arr[i]<nguongcao)&&(beat_arr[i]>nguongthap)){
+          $("#table-left1").append("<div class='para_2'>"+time_arr[i]+"</div>")
+          $("#table-center").append("<div class='para_2'>"+beat_arr[i]+"</div>")
+          $("#table-right").append("<div class='para_2'>"+oxy_arr[i]+"</div>")
+          $("#table-left2").append("<div class='para_2'>"+id_arr[i]+"</div>")
+          console.log(id_arr[i]);
+       }
+
     }
+      
      if(page==begin_page){
         $("#page-back").hide();
         $("#ve-trang-dau").hide();
@@ -37,80 +64,37 @@ socket.on("send-full", function(data){
      if(page==begin_page && page ==0){
         $("#page-back").hide();
         $("#page-next").hide();
-     }
+    }
 });
 socket.on("server-update-data", function(data){
-
-    // $("#current-beat").html("")
-    // $("#current-oxy").html("")
-    // $("#current-beat").append("Nhiệt độ: "+data.beat+"°C")
-    // $("#current-oxy").append("Độ ẩm :"+data.oxy+" %")
-    
-
-  //   var v = data.beat;
-  //   $('.beat-stem-perct').css('height',2*v+'%');
-  // if(v<=10){
-  //    $('.beat-stem-perct').css('background','#A9F5F2');
-  //    $('.bulb').css('background','#A9F5F2');
-  // }
-  // else if(v<=20){
-  //    $('.beat-stem-perct').css('background','#A9F5A9');
-  //    $('.bulb').css('background','#A9F5A9');
-  // }
-  // else if(v<=30){
-  //    $('.beat-stem-perct').css('background','#F3F781');
-  //    $('.bulb').css('background','#F3F781');
-  // }
-  // else if(v<=40){
-  //    $('.beat-stem-perct').css('background','#FE9A2E');
-  //    $('.bulb').css('background','#FE9A2E');
-  // }
-  // else{
-  //   $('.beat-stem-perct').css('background','#FE2E2E');
-  //   $('.bulb').css('background','#FE2E2E');
-  // }
-
-
-  // var u = data.oxy;
-  //   $('.oxy-stem-perct').css('height',u+'%');
-  // if(u<=20){
-  //    $('.oxy-stem-perct').css('background','#00FFFF');
-  // }
-  // else if(u<=40){
-  //    $('.oxy-stem-perct').css('background','#00BFFF');
-  // }
-  // else if(u<=60){
-  //    $('.oxy-stem-perct').css('background','#0080FF');
-  // }
-  // else if(u<=80){
-  //    $('.oxy-stem-perct').css('background','#0040FF');
-  // }
-  // else{
-  //   $('.oxy-stem-perct').css('background','#08088A');
-  // }
-
-
     id_arr.push(data.id);
     time_arr.push(data.time);
     beat_arr.push(data.beat);
     oxy_arr.push(data.oxy);
     updateTable();
-    if(id_arr.length==(begin_page+1)*itemPerPage){
+    if(id_arr.length==(begin_page+1)*itperPage){
         begin_page=begin_page+1;
          $("#current").html("");
-        $("#current").append("<div class='page'</div>"+(page+1)+"/"+(begin_page+1));
+        $("#current").append("<div class='page'></div>"+(page+1)+"/"+(begin_page+1));
         $("#page-back").show();
         $("#ve-trang-dau").show();
     }
 
 })
-
 function updateTable() {
-    if(id_arr.length < (begin_page+1)*itemPerPage+1 && page==begin_page){
-        $("#table-left1").append("<div class='para'>"+time_arr[id_arr.length-1]+"</div>")
-        $("#table-center").append("<div class='para'>"+beat_arr[id_arr.length-1]+"</div>")
-        $("#table-right").append("<div class='para'>"+oxy_arr[id_arr.length-1]+"</div>")
-        $("#table-left2").append("<div class='para'>"+id_arr[id_arr.length-1]+"</div>")
+    if(id_arr.length < (begin_page+1)*itperPage+1 && page==begin_page){
+        if((beat_arr[id_arr.length-1]<nguongcao)&&(beat_arr[id_arr.length-1]>nguongthap)){
+          $("#table-left1").append("<div class='para_2'>"+time_arr[id_arr.length-1]+"</div>")
+          $("#table-center").append("<div class='para_2'>"+beat_arr[id_arr.length-1]+"</div>")
+          $("#table-right").append("<div class='para_2'>"+oxy_arr[id_arr.length-1]+"</div>")
+          $("#table-left2").append("<div class='para_2'>"+id_arr[id_arr.length-1]+"</div>")
+      }
+      if((beat_arr[id_arr.length-1]>=nguongcao)||(beat_arr[id_arr.length-1]<=nguongthap)){     
+          $("#table-left1").append("<div class='para_1'>"+time_arr[id_arr.length-1]+"</div>")
+          $("#table-center").append("<div class='para_1'>"+beat_arr[id_arr.length-1]+"</div>")
+          $("#table-right").append("<div class='para_1'>"+oxy_arr[id_arr.length-1]+"</div>")
+          $("#table-left2").append("<div class='para_1'>"+id_arr[id_arr.length-1]+"</div>")
+      }
     }
  } 
 socket.on("thaynguong-thanhcong", function(){
@@ -150,13 +134,21 @@ $(document).ready(function(){
         $("#table-right").html("");
         $("#table-left2").html("");
          $("#current").html("");
-    $("#current").append("<div class='page'</div>"+(page+1)+"/"+(begin_page+1));
-        for(let i = page*itemPerPage; i < id_arr.length && i < (page+1)*itemPerPage; i++)
+    $("#current").append("<div class='page'></div>"+(page+1)+"/"+(begin_page+1));
+        for(let i = page*itperPage; i < id_arr.length && i < (page+1)*itperPage; i++)
         {       
-            $("#table-left1").append("<div class='para'>"+time_arr[i]+"</div>")
-            $("#table-center").append("<div class='para'>"+beat_arr[i]+"</div>")
-            $("#table-right").append("<div class='para'>"+oxy_arr[i]+"</div>")
-            $("#table-left2").append("<div class='para'>"+id_arr[i]+"</div>")
+          if((beat_arr[i]<nguongcao)&&(beat_arr[i]>nguongthap)){
+          $("#table-left1").append("<div class='para_2'>"+time_arr[i]+"</div>")
+          $("#table-center").append("<div class='para_2'>"+beat_arr[i]+"</div>")
+          $("#table-right").append("<div class='para_2'>"+oxy_arr[i]+"</div>")
+          $("#table-left2").append("<div class='para_2'>"+id_arr[i]+"</div>")
+      }
+      if((beat_arr[i]>=nguongcao)||(beat_arr[i]<=nguongthap)){     
+          $("#table-left1").append("<div class='para_1'>"+time_arr[i]+"</div>")
+          $("#table-center").append("<div class='para_1'>"+beat_arr[i]+"</div>")
+          $("#table-right").append("<div class='para_1'>"+oxy_arr[i]+"</div>")
+          $("#table-left2").append("<div class='para_1'>"+id_arr[i]+"</div>")
+      }
         }
     if(page==begin_page){
         $("#page-back").hide();
@@ -176,13 +168,22 @@ $(document).ready(function(){
         $("#table-right").html("");
         $("#table-left2").html("");
          $("#current").html("");
-        $("#current").append("<div class='page'</div>"+(page+1)+"/"+(begin_page+1));
-        for(let i = page*itemPerPage; i < id_arr.length && i < (page+1)*itemPerPage; i++)
+        $("#current").append("<div class='page'></div>"+(page+1)+"/"+(begin_page+1));
+        for(let i = page*itperPage; i < id_arr.length && i < (page+1)*itperPage; i++)
         {       
-            $("#table-left1").append("<div class='para'>"+time_arr[i]+"</div>")
-            $("#table-center").append("<div class='para'>"+beat_arr[i]+"</div>")
-            $("#table-right").append("<div class='para'>"+oxy_arr[i]+"</div>")
-            $("#table-left2").append("<div class='para'>"+id_arr[i]+"</div>")
+             if((beat_arr[i]<nguongcao)&&(beat_arr[i]>nguongthap)){
+          $("#table-left1").append("<div class='para_2'>"+time_arr[i]+"</div>")
+          $("#table-center").append("<div class='para_2'>"+beat_arr[i]+"</div>")
+          $("#table-right").append("<div class='para_2'>"+oxy_arr[i]+"</div>")
+          $("#table-left2").append("<div class='para_2'>"+id_arr[i]+"</div>")
+      }
+      if((beat_arr[i]>=nguongcao)||(beat_arr[i]<=nguongthap)){     
+          $("#table-left1").append("<div class='para_1'>"+time_arr[i]+"</div>")
+          $("#table-center").append("<div class='para_1'>"+beat_arr[i]+"</div>")
+          $("#table-right").append("<div class='para_1'>"+oxy_arr[i]+"</div>")
+          $("#table-left2").append("<div class='para_1'>"+id_arr[i]+"</div>")
+          console.log(id_arr[i]);
+      }
         }
         if(page==0){
         $("#page-next").hide();
@@ -204,13 +205,21 @@ $(document).ready(function(){
         $("#table-right").html("");
         $("#table-left2").html("");
          $("#current").html("");
-        $("#current").append("<div class='page'</div>"+(page+1)+"/"+(begin_page+1));
-        for(let i = page*itemPerPage; i < id_arr.length && i < (page+1)*itemPerPage; i++)
+        $("#current").append("<div class='page'></div>"+(page+1)+"/"+(begin_page+1));
+        for(let i = page*itperPage; i < id_arr.length && i < (page+1)*itperPage; i++)
         {       
-            $("#table-left1").append("<div class='para'>"+time_arr[i]+"</div>")
-            $("#table-center").append("<div class='para'>"+beat_arr[i]+"</div>")
-            $("#table-right").append("<div class='para'>"+oxy_arr[i]+"</div>")
-            $("#table-left2").append("<div class='para'>"+id_arr[i]+"</div>")
+            if((beat_arr[i]<nguongcao)&&(beat_arr[i]>nguongthap)){
+          $("#table-left1").append("<div class='para_2'>"+time_arr[i]+"</div>")
+          $("#table-center").append("<div class='para_2'>"+beat_arr[i]+"</div>")
+          $("#table-right").append("<div class='para_2'>"+oxy_arr[i]+"</div>")
+          $("#table-left2").append("<div class='para_2'>"+id_arr[i]+"</div>")
+      }
+      if((beat_arr[i]>=nguongcao)||(beat_arr[i]<=nguongthap)){     
+          $("#table-left1").append("<div class='para_1'>"+time_arr[i]+"</div>")
+          $("#table-center").append("<div class='para_1'>"+beat_arr[i]+"</div>")
+          $("#table-right").append("<div class='para_1'>"+oxy_arr[i]+"</div>")
+          $("#table-left2").append("<div class='para_1'>"+id_arr[i]+"</div>")
+      }
         }
         if(page==begin_page){
         $("#ve-trang-dau").hide();
@@ -227,13 +236,21 @@ $(document).ready(function(){
         $("#table-right").html("");
         $("#table-left2").html("");
          $("#current").html("");
-        $("#current").append("<div class='page'</div>"+(page+1)+"/"+(begin_page+1));
-        for(let i = page*itemPerPage; i < id_arr.length && i < (page+1)*itemPerPage; i++)
+        $("#current").append("<div class='page'></div>"+(page+1)+"/"+(begin_page+1));
+        for(let i = page*itperPage; i < id_arr.length && i < (page+1)*itperPage; i++)
         {       
-            $("#table-left1").append("<div class='para'>"+time_arr[i]+"</div>")
-            $("#table-center").append("<div class='para'>"+beat_arr[i]+"</div>")
-            $("#table-right").append("<div class='para'>"+oxy_arr[i]+"</div>")
-            $("#table-left2").append("<div class='para'>"+id_arr[i]+"</div>")
+             if((beat_arr[i]<nguongcao)&&(beat_arr[i]>nguongthap)){
+          $("#table-left1").append("<div class='para_2'>"+time_arr[i]+"</div>")
+          $("#table-center").append("<div class='para_2'>"+beat_arr[i]+"</div>")
+          $("#table-right").append("<div class='para_2'>"+oxy_arr[i]+"</div>")
+          $("#table-left2").append("<div class='para_2'>"+id_arr[i]+"</div>")
+      }
+      if((beat_arr[i]>=nguongcao)||(beat_arr[i]<=nguongthap)){     
+          $("#table-left1").append("<div class='para_1'>"+time_arr[i]+"</div>")
+          $("#table-center").append("<div class='para_1'>"+beat_arr[i]+"</div>")
+          $("#table-right").append("<div class='para_1'>"+oxy_arr[i]+"</div>")
+          $("#table-left2").append("<div class='para_1'>"+id_arr[i]+"</div>")
+      }
         }
         if(page==0){
         $("#ve-trang-cuoi").hide();

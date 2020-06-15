@@ -201,6 +201,10 @@ io.on('connection', function(socket){
      io.sockets.emit("server-send-oxy_graph",oxy_graph);
     io.sockets.emit("server-send-heartbeat_graph",heartbeat_graph);
     io.sockets.emit("server-send-date_graph",date_graph);
+    io.sockets.emit("nguongcao1",nguongcao);
+    io.sockets.emit("nguongthap1",nguongthap);
+    io.sockets.emit("nguongcao",nguongcao);
+    io.sockets.emit("nguongthap",nguongthap);
 
     var sql1 = "SELECT * FROM sensors12 ORDER BY ID"
     con.query(sql1, function(err, result, fields){
