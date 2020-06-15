@@ -107,7 +107,6 @@ client.on('message',function(topic, message, packet){
     
     newHeartbeat = JSON.parse(message).Heartbeat
     newOxy = JSON.parse(message).Oxygen
-    u=JSON.parse(message).Heartbet
     if(topic == "tat-thu-cong"){
         io.sockets.emit("tat-thu-cong", "")
     }
@@ -249,10 +248,3 @@ io.on('connection', function(socket){
          client.publish(topic2, "off")
     });
     });
-   setInterval(function(){ 
-    var x = {
-        "Heartbet"
-    };
-     client.publish(topic3, json.dumps(x))
-     console.log(1);
-    }, 10000);
