@@ -33,10 +33,13 @@ var topic1 = "orion-heartbeat"
 console.log("connected flag  " + client.connected);
 client.on("connect",function(){ 
     console.log("connected  "+ client.connected);   
-    client.subscribe("orion-heartbeat");
-    client.subscribe("tat-thu-cong");
+    // client.subscribe("orion-heartbeat");
+    // client.subscribe("tat-thu-cong");
 
     });
+  client.subscribe("orion-heartbeat");
+    client.subscribe("tat-thu-cong");
+
 
 client.on("error",function(error){
     console.log("Can't connect" + error);
