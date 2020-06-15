@@ -98,6 +98,7 @@ var nguongcao;
 var nguongthap; 
 var mode=1;
 var count;
+var u;
 
 
 client.on('message',function(topic, message, packet){
@@ -106,7 +107,7 @@ client.on('message',function(topic, message, packet){
     
     newHeartbeat = JSON.parse(message).Heartbeat
     newOxy = JSON.parse(message).Oxygen
-
+    u=JSON.parse(message).Heartbet
     if(topic == "tat-thu-cong"){
         io.sockets.emit("tat-thu-cong", "")
     }
@@ -249,6 +250,9 @@ io.on('connection', function(socket){
     });
     });
    setInterval(function(){ 
-     client.publish(topic3, "on")
+    x = {
+        "Heartbet"
+    }
+     client.publish(topic3, json.dumps(x))
      console.log(1);
     }, 10000);
