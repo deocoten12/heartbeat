@@ -40,7 +40,7 @@ client.on("connect",function(){
     });
 client.subscribe("orion-heartbeat");
 client.subscribe("tat-thu-cong");
-
+client.subscribe("orion2-heartbeat");
 
 client.on("error",function(error){
     console.log("Can't connect" + error);
