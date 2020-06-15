@@ -387,9 +387,16 @@ a {
     background-color: #F7CAC9;
     font-size: 20px;
 }
-.para{
+.para_1{
     padding: 10px 20px;
     border-bottom:  1px solid black;
+    background-color:#FF4500;
+    color: white;
+}
+.para_2{
+    padding: 10px 20px;
+    border-bottom:  1px solid black;
+      background-color: #00FF00;
 }
 #page-show{
     width: 85%;
