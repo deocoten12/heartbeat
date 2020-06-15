@@ -25,7 +25,7 @@ app.get("/thaynguong.ejs", function(req,  res){
 
 //----------------------MQTT-------------------------
 // var client = mqtt.connect("mqtt://localhost:1883",{clientId:"mqttjs01"}); 
-var client = mqtt.connect("mqtt://broker.hivemq.com",{clientId:"mqttjs01"});    
+var client = mqtt.connect("mqtt://broker.hivemq.com",1883, 60);    
 var topic2 = "orion-canhbao"; //LED cảnh báo hoặc còi ...
 var message="test message";
 var topic1 = "orion-heartbeat"
