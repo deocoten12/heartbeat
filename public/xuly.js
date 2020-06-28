@@ -265,6 +265,7 @@ $(document).ready(function(){
     $("#thaynguong-button").click(function(){
         socket.emit("thaynguong1", $("#pin1").val());
         socket.emit("thaynguong2", $("#pin2").val());
+        socket.emit("matkhau", $("#pin3").val());
     });
     $("#warning-button").click(function(){
         $("#warning").hide();

@@ -86,7 +86,7 @@ con.connect(function(err) {
     });
 })
 
-
+var matkhau = 1098;
 var oxy_graph=[]; 
 var heartbeat_graph=[]; 
 var date_graph=[];
@@ -96,6 +96,8 @@ var newHeartbeat;
 var newOxy;
 var nguongcao; 
 var nguongthap; 
+var nguongcao_user;
+var nguongthap_user;
 var mode=1;
 var count;
 var u;
@@ -229,8 +231,12 @@ io.on('connection', function(socket){
         }else{
         io.sockets.emit("Canhbao-off");
     }
+    socket.on("matkhau",function(data){
+        var   matkhau2=data;
+        console.log(data);
+    });
     socket.on("thaynguong1",function(data){
-        nguongcao=data;
+        nguongcao_user=data;
         console.log(data);
     });
     socket.on("canhbao",function(data){
@@ -239,10 +245,14 @@ io.on('connection', function(socket){
     });
 
     socket.on("thaynguong2",function(data){
-        nguongthap=data;
+        nguongthap_user=data;
         console.log(data);
-        io.sockets.emit("thaynguong-thanhcong");
     });
+     if(matkhau2==matkhau){
+        nguongcao=nguongcao_user;
+        nguongthap=nguongthap_user;
+        io.sockets.emit("thaynguong-thanhcong");
+    }
 
     socket.on("tat-thu-cong-web",function(){
          client.publish(topic2, "off")
