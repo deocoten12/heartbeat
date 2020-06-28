@@ -201,7 +201,7 @@ input:checked + .slider:before {
 
   position: fixed;
   left: 2.5%;
-  top: 35%;
+  top: 55%;
 }
 #switch-title{
   width: 100%;
