@@ -232,10 +232,6 @@ io.on('connection', function(socket){
         }else{
         io.sockets.emit("Canhbao-off");
     }
-    socket.on("matkhau",function(data){
-        matkhau2=data;
-        console.log(data);
-    });
     socket.on("thaynguong1",function(data){
         nguongcao_user=data;
         console.log(data);
@@ -249,11 +245,15 @@ io.on('connection', function(socket){
         nguongthap_user=data;
         console.log(data);
     });
+    socket.on("matkhau",function(data){
+        matkhau2=data;
+        console.log(data);
      if(matkhau2==matkhau){
         nguongcao=nguongcao_user;
         nguongthap=nguongthap_user;
         io.sockets.emit("thaynguong-thanhcong");
     }
+     });
 
     socket.on("tat-thu-cong-web",function(){
          client.publish(topic2, "off")
