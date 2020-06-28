@@ -87,6 +87,7 @@ con.connect(function(err) {
 })
 
 var matkhau = 1098;
+var matkhau2;
 var oxy_graph=[]; 
 var heartbeat_graph=[]; 
 var date_graph=[];
@@ -232,7 +233,7 @@ io.on('connection', function(socket){
         io.sockets.emit("Canhbao-off");
     }
     socket.on("matkhau",function(data){
-        var   matkhau2=data;
+        matkhau2=data;
         console.log(data);
     });
     socket.on("thaynguong1",function(data){
