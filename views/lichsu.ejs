@@ -1,99 +1,67 @@
-<html>
-<head>
-<title> Đo Nhịp Tim</title>
-<script src="https://donhiptim.herokuapp.com/highcharts.js"></script>
-<script src="https://donhiptim.herokuapp.com/export-data.js"></script>
-<script src="https://donhiptim.herokuapp.com/accessibility.js"></script>
-<script src="https://donhiptim.herokuapp.com/jquery.js"> </script>
-<script src ="https://donhiptim.herokuapp.com/socket.io/socket.io.js"> </script>
-<script src="https://donhiptim.herokuapp.com/xuly.js"></script>
-<link rel="stylesheet" type="text/css" href="https://donhiptim.herokuapp.com/layout.css"/>
-</head>
-<body>
-<div class="sidebar-container">
-  <div class="sidebar-logo">
-    Thiết bị đo nhịp tim
-  </div>
-  <ul class="sidebar-navigation">
-    <li>
-      <a href="dothi.ejs">
-        <i class="fa fa-home" aria-hidden="true"></i> Đồ Thị
-      </a>
-    </li>
-    <li>
-      <a href="lichsu.ejs">
-        <i class="fa fa-tachometer" aria-hidden="true"></i> Lịch Sử
-      </a>
-    </li>
-    <li>
-      <a href="thaynguong.ejs">
-        <i class="fa fa-users" aria-hidden="true"></i> Thay đổi ngưỡng
-      </a>
-    </li>
-    <li>
-      <div id="container-switch">
-        <div id="switch-title"> 
-          Trạng thái cảnh báo 
-          <div class="switch-container">
-            <label class="switch">
-              <input type="checkbox" id="checked">
-              <span class="slider round"></span>
-          </label>
-        </div>
-       </div>
-    </li>
-  </ul>
-</div>
-<div id="status">
-         <div id="thaynguong-status"></div>
-     </div>
- <div id="table1">
-                    <div id="table-header">
-                        <div id="table-left-2">
-                            <div id="left2-header">Lần đo</div>
-                        </div>
-                        <div id="table-left-1">
-                            <div id="left1-header">Thời gian</div>
-                        </div>
-                        <div id="table-center1">
-                            <div id="center-header">Nhịp tim(BPM)</div>
-                        </div>
-                        <div id="table-right1">
-                            <div id="right-header">Nồng độ Oxy(%)</div>
-                        </div>
-                    </div>
-                    <div id="body">
-                        <div id="table-left2">
-                            <!-- <div id="thoigian"></div> -->
-                        </div>
-                        <div id="table-left1">
-                            <!-- <div id="thoigian"></div> -->
-                        </div>
-                        <div id="table-center"> 
-                            <!-- <div id="nhietdo"></div> -->
-                        </div>
-                        <div id="table-right">
-                            <!-- <div id="doam"></div> -->
-                        </div>
-                    </div>
-                   <!--  <div id="page-show">
-                        <div id="current">
-                        <div class="page"></div>
-                        </div>
-                        <button id="page-back"><</button>
-                        <button id="page-next">></button>
-                        <button id="ve-trang-dau">Về Trang Hiện tại</button>
-                        <button id="ve-trang-cuoi">Về Trang Cuối</button>
-                    </div> -->
-                </div>
-                 <div id="page-show">
-                      <button id="ve-trang-dau">Về Trang Đầu</button>
-                      <button id="page-back"><<</button>
-                        <div id="current">
-                        <div class="page"></div>
-                        </div>
-                        <button id="page-next">>></button>
-                        <button id="ve-trang-cuoi">Về Trang Cuối</button>
-                    </div>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>History</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Bootstrap CSS -->
+    <script src="export-data.js"></script>
+    <script src="accessibility.js"></script>
+    <script src="jquery.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="xuly.js"></script>
+    <script src="heartbeat.js"></script>
+    <link rel="stylesheet" href="heartbeat.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css"
+    />
+  </head>
+  <body>
+    <div id="navbar">
+      <a href="chart" class="logo">HeartBeat</a>
+      <div class="box">
+        <div class="heart"></div>
+      </div>
+      <div id="navbar-right">
+        <a href="chart">Theo dõi</a>
+        <a class="warning" href="#">Cảnh báo</a>
+        <a href="history" class="active">Lịch sử</a>
+        <a href="#">Chi tiết</a>
+      </div>
+    </div>
+    <div id="table">
+      <table
+        id="example"
+        class="table table-striped table-bordered"
+        style="width: 100%; color: white; text-align: center"
+      >
+        <thead>
+          <tr>
+            <th>Lần đo</th>
+            <th>Thời gian</th>
+            <th>Nhịp tim</th>
+            <th>Nồng độ oxi</th>
+          </tr>
+        </thead>
+        <tbody id="data-table"></tbody>
+      </table>
+    </div>
+    <script src="jquery.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#example").DataTable();
+      });
+    </script>
+  </body>
 </html>
